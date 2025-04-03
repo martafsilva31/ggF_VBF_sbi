@@ -1,0 +1,61 @@
+#************************************************************
+#*                     MadGraph5_aMC@NLO                    *
+#*                                                          *
+#*                *                       *                 *
+#*                  *        * *        *                   *
+#*                    * * * * 5 * * * *                     *
+#*                  *        * *        *                   *
+#*                *                       *                 *
+#*                                                          *
+#*                                                          *
+#*         VERSION 3.5.1                 2023-07-11         *
+#*                                                          *
+#*    The MadGraph5_aMC@NLO Development Team - Find us at   *
+#*    https://server06.fynu.ucl.ac.be/projects/madgraph     *
+#*                                                          *
+#************************************************************
+#*                                                          *
+#*               Command File for MadGraph5_aMC@NLO         *
+#*                                                          *
+#*     run as ./bin/mg5_aMC  filename                       *
+#*                                                          *
+#************************************************************
+set group_subprocesses Auto
+set ignore_six_quark_processes False
+set low_mem_multicore_nlo_generation False
+set complex_mass_scheme False
+set include_lepton_initiated_processes False
+set gauge unitary
+set loop_optimized_output True
+set loop_color_flows False
+set max_npoint_for_channel 0
+set default_unset_couplings 99
+set max_t_for_channel 99
+set zerowidth_tchannel True
+set nlo_mixed_expansion True
+convert model /project/atlas/users/mfernand/bachelor_projects/sbi_madminer_code/VBF/SMEFTsim_U35_MwScheme_UFO
+Traceback (most recent call last):
+  File "/project/atlas/Users/mfernand/software/MG5_aMC_v3_5_1/madgraph/interface/extended_cmd.py", line 1543, in onecmd
+    return self.onecmd_orig(line, **opt)
+  File "/project/atlas/Users/mfernand/software/MG5_aMC_v3_5_1/madgraph/interface/extended_cmd.py", line 1492, in onecmd_orig
+    return func(arg, **opt)
+  File "/project/atlas/Users/mfernand/software/MG5_aMC_v3_5_1/madgraph/interface/master_interface.py", line 281, in do_import
+    self.cmd.do_import(self, *args, **opts)
+  File "/project/atlas/Users/mfernand/software/MG5_aMC_v3_5_1/madgraph/interface/madgraph_interface.py", line 5693, in do_import
+    self.import_command_file(args[1])
+  File "/project/atlas/Users/mfernand/software/MG5_aMC_v3_5_1/madgraph/interface/extended_cmd.py", line 1691, in import_command_file
+    self.exec_cmd(line, precmd=True)
+  File "/project/atlas/Users/mfernand/software/MG5_aMC_v3_5_1/madgraph/interface/extended_cmd.py", line 1572, in exec_cmd
+    stop = Cmd.onecmd_orig(current_interface, line, **opt)
+  File "/project/atlas/Users/mfernand/software/MG5_aMC_v3_5_1/madgraph/interface/extended_cmd.py", line 1492, in onecmd_orig
+    return func(arg, **opt)
+  File "/project/atlas/Users/mfernand/software/MG5_aMC_v3_5_1/madgraph/interface/master_interface.py", line 481, in do_convert
+    return self.cmd.do_convert(self, *args, **opts)
+  File "/project/atlas/Users/mfernand/software/MG5_aMC_v3_5_1/madgraph/interface/madgraph_interface.py", line 3370, in do_convert
+    getattr(self, 'do_convert_%s' % args[0])(args[1:])
+  File "/project/atlas/Users/mfernand/software/MG5_aMC_v3_5_1/madgraph/interface/master_interface.py", line 484, in do_convert_model
+    return self.cmd.do_convert_model(self, *args, **opts)
+  File "/project/atlas/Users/mfernand/software/MG5_aMC_v3_5_1/madgraph/interface/madgraph_interface.py", line 3376, in do_convert_model
+    raise Exception( 'model to convert need to provide a full path')
+Exception: model to convert need to provide a full path
+Fail to write options with error No model currently active, please import a model!

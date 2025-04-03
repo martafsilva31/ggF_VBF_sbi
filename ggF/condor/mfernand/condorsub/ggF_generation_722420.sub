@@ -1,0 +1,11 @@
+executable=/project/atlas/users/mfernand/sbi_madminer_code/ggF/condor/mfernand/condorsub/ggF_generation_722420.sh
+JobBatchName=ggF_generation_722420
++JobCategory="medium"
++UseOS="el9"
++MaxWallTime=
+request_cpus=4
+request_memory=16000
+log = /project/atlas/users/mfernand/sbi_madminer_code/ggF/ggF_generation_722420_722420.condorlog
+output = /project/atlas/users/mfernand/sbi_madminer_code/ggF/ggF_generation_722420_722420.log
+error = /project/atlas/users/mfernand/sbi_madminer_code/ggF/ggF_generation_722420_722420.stderr
+queue

@@ -1,0 +1,9 @@
+executable 		= ggF_generation.sh
+log                     = log.log
+output                  = output.txt
+error                   = errors.txt
++UseOS                  = "el9"
++JobCategory            = "short"
+
+queue
+

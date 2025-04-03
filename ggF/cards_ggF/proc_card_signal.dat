@@ -1,0 +1,6 @@
+convert model /project/atlas/users/mfernand/sbi_madminer_code/ggF/SMEFTsim_top_MwScheme_UFO
+import model /project/atlas/users/mfernand/sbi_madminer_code/ggF/SMEFTsim_top_MwScheme_UFO
+define jb = g u c d s b u~ c~ d~ s~ b~ 
+generate p p > h > l+ vl l- vl~ /z QED=4 QCD=2 NP<=1 SMHLOOP<=1 
+add process p p > h > l+ vl l- vl~ jb /z  QED=4 QCD=3 NP<=1 SMHLOOP<=1
+add process p p > h > l+ vl l- vl~ jb jb /z QED=4 QCD=4 NP<=1 SMHLOOP<=1 
