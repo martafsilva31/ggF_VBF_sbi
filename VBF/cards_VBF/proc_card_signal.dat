@@ -1,4 +1,4 @@
-convert model /project/atlas/Users/mfernand/sbi_madminer_code/VBF/SMEFTsim_U35_MwScheme_UFO
-import model /project/atlas/Users/mfernand/sbi_madminer_code/VBF/SMEFTsim_U35_MwScheme_UFO
+convert model /lstore/titan/martafsilva/master_thesis/bachelor_projects/ggF_VBF_sbi/VBF/SMEFTsim_U35_MwScheme_UFO
+import model /lstore/titan/martafsilva/master_thesis/bachelor_projects/ggF_VBF_sbi/VBF/SMEFTsim_U35_MwScheme_UFO
 define jj = u c d s b u~ c~ d~ s~ b~
-generate jj jj > h j j $$ w+ w- z / a QCD=0 SMHLOOP==0 NP<=1
+generate jj jj > h j j $$ w+ w- z / a QCD=0 NP<=1, (h > w+ w- > l+ vl l- vl~)

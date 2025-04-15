@@ -42,15 +42,14 @@ logging.basicConfig(
 #     return 0
 
 # Counting the number of jets
-def n_jets(particles=[], leptons=[], photons=[], jets=[], met=None, debug=False):
-    
+def nb_jets(leptons, photons, jets, met):
     num_jets = 0
     for jet in jets:
         num_jets += 1
     return num_jets
 
 # Want leptons with opposite sign and different flavor (to remove Drell-Yan background)
-def osdf_veto(particles=[], leptons=[], photons=[], jets=[], met=None, debug=False):
+def osdf_veto(leptons, photons, jets, met):
     num_leptons = 0
     for lepton in leptons:
         num_leptons += 1
@@ -142,13 +141,13 @@ def process_events(event_path, setup_file_path, is_background_process=False, k_f
         logging.warning(f'analysed (.h5) file in {event_path} already exists !')
 
     # Adding observables
-    for i, name in enumerate(observable_names):
-        reader.add_observable( name, list_of_observables[i], required=True )
+    # for i, name in enumerate(observable_names):
+    #     reader.add_observable( name, list_of_observables[i], required=True )
 
 
     # reader.add_observable_from_function('dphi_jj', dphi_jj,required=True)
     # reader.add_observable_from_function('b_veto', b_veto,required=True)
-    reader.add_observable_from_function('n_jets', n_jets,required=True)
+    reader.add_observable_from_function('n_jets', nb_jets,required=True)
     reader.add_observable_from_function('osdf_veto', osdf_veto,required=True)
 
     # Cuts
@@ -162,11 +161,14 @@ def process_events(event_path, setup_file_path, is_background_process=False, k_f
 
     reader.save(f'{event_path}/analysed_events.h5')
 
+
+    
+
 if __name__ == '__main__':
 
     parser = ap.ArgumentParser(description='Detector-level analysis of signal and background events (with Delphes). Includes the computation of the pZ of the neutrino and several angular observables',formatter_class=ap.ArgumentDefaultsHelpFormatter)
     
-    parser.add_argument('--config_file', help='Path to the YAML configuration file', default='config_1D_cHWtil.yaml')
+    parser.add_argument('--config_file', help='Path to the YAML configuration file', default='config_1D_cHGtil.yaml')
 
     parser.add_argument('--sample_dir',help='folder where the individual sample is', required=True)
 
@@ -192,6 +194,6 @@ if __name__ == '__main__':
         delphes_card = config['delphes_card']
 
     if 'background' in args.sample_dir:
-        process_events(f'{args.sample_dir}',f'{main_dir}/setup_1D_cHWtil.h5',is_background_process=True,k_factor=1.0,do_delphes=args.do_delphes, delphes_card=delphes_card, benchmark = args.benchmark)
+        process_events(f'{args.sample_dir}',f'{main_dir}/setup_1D_cHGtil.h5',is_background_process=True,k_factor=1.0,do_delphes=args.do_delphes, delphes_card=delphes_card, benchmark = args.benchmark)
     else:
-        process_events(f'{args.sample_dir}',f'{main_dir}/setup_1D_cHWtil.h5',is_background_process=False,k_factor=1.0,do_delphes=args.do_delphes, delphes_card=delphes_card, benchmark = args.benchmark)
+        process_events(f'{args.sample_dir}',f'{main_dir}/setup_1D_cHGtil.h5',is_background_process=False,k_factor=1.0,do_delphes=args.do_delphes, delphes_card=delphes_card, benchmark = args.benchmark)

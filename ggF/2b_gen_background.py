@@ -31,7 +31,7 @@ for key in logging.Logger.manager.loggerDict:
         logging.getLogger(key).setLevel(logging.WARNING)
 
 
-def gen_background(main_dir, setup_file, do_pythia, pythia_card, mg_dir, cards_folder_name):
+def gen_background(main_dir, setup_file, do_pythia, pythia_card, mg_dir, cards_folder_name,prepare_scripts, launch_SLURM_jobs):
     
     
     # Load morphing setup file
@@ -43,7 +43,7 @@ def gen_background(main_dir, setup_file, do_pythia, pythia_card, mg_dir, cards_f
 
 
     # LIP Madgraph specifics
-    init_command="export LD_LIBRARY_PATH=/project/atlas/users/mfernand/software/MG5_aMC_v3_5_1/HEPTools/pythia8/lib:$LD_LIBRARY_PATH",
+    init_command=" export LD_LIBRARY_PATH=/cvmfs/sw.el7/gcc63/madgraph/3.3.1/b01/HEPTools/pythia8/lib:$LD_LIBRARY_PATH; module load gcc63/madgraph/3.3.1; module unload gcc63/pythia/8.2.40",
 
     
     miner.run(
@@ -57,8 +57,16 @@ def gen_background(main_dir, setup_file, do_pythia, pythia_card, mg_dir, cards_f
         sample_benchmark='sm',
         initial_command=init_command,
         is_background=True,
+        only_prepare_script=prepare_scripts
     )
 
+
+
+    # Launch gen jobs to SLURM # LIP specifics
+    if args.launch_SLURM_jobs and args.prepare_scripts:
+        logging.info("Launching SLURM generation jobs")
+        cmd = f'find {main_dir}/background_samples/*/madminer -name "run.sh" -exec sbatch -p lipq --mem=4G {{}} \;'
+        os.popen(cmd)
 
     os.remove('/tmp/generate.mg5')
 
@@ -69,6 +77,11 @@ if __name__ == "__main__":
     parser.add_argument('--config_file', help='Path to the YAML configuration file', default='config_1D_cHGtil.yaml')
 
     parser.add_argument('--do_pythia', help='whether or not to run Pythia after Madgraph', action='store_true',default=False)
+    
+    parser.add_argument('--prepare_scripts',help='Prepares only run scripts to e.g. submit to a batch system separately',action='store_true',default=False)
+
+    parser.add_argument('--launch_SLURM_jobs',help='If SLURM jobs are to be launched immediately after preparation of scripts',action="store_true",default=False)
+    
 
     args = parser.parse_args()
 
@@ -83,4 +96,4 @@ if __name__ == "__main__":
         cards_folder_name = config['cards_folder_name']
 
     # Generate signal
-    gen_background(main_dir, setup_file, args.do_pythia, pythia_card, mg_dir,cards_folder_name)
+    gen_background(main_dir, setup_file, args.do_pythia, pythia_card, mg_dir,cards_folder_name,args.prepare_scripts, args.launch_SLURM_jobs)

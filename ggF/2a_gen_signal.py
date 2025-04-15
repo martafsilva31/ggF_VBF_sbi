@@ -35,7 +35,7 @@ for key in logging.Logger.manager.loggerDict:
     if "madminer" not in key:
         logging.getLogger(key).setLevel(logging.WARNING)
 
-def gen_signal(main_dir, setup_file, do_pythia, pythia_card, generate_BSM, mg_dir, cards_folder_name):
+def gen_signal(main_dir, setup_file, do_pythia, pythia_card, generate_BSM, mg_dir, cards_folder_name, prepare_scripts, launch_SLURM_jobs):
 
     # Load morphing setup file
     miner = MadMiner()
@@ -44,8 +44,9 @@ def gen_signal(main_dir, setup_file, do_pythia, pythia_card, generate_BSM, mg_di
 
     param_card_template_file=f'{cards_folder_name}/param_card_massless.dat'
 
+
     # LIP specifics
-    init_command="export LD_LIBRARY_PATH=/project/atlas/users/mfernand/software/MG5_aMC_v3_5_1/HEPTools/pythia8/lib:$LD_LIBRARY_PATH"
+    init_command="export LD_LIBRARY_PATH=/cvmfs/sw.el7/gcc63/madgraph/3.3.1/b01/HEPTools/pythia8/lib:$LD_LIBRARY_PATH; module load gcc63/madgraph/3.3.1; module unload gcc63/pythia/8.2.40",
 
     #SM samples with MG (re)weights of BSM benchmarks
     miner.run(
@@ -59,6 +60,7 @@ def gen_signal(main_dir, setup_file, do_pythia, pythia_card, generate_BSM, mg_di
         is_background = not args.reweight,
         run_card_file=f'{cards_folder_name}/run_card_signal_large.dat',
         initial_command=init_command if init_command != '' else None,
+        only_prepare_script=prepare_scripts
     )
 
     if generate_BSM:
@@ -73,7 +75,8 @@ def gen_signal(main_dir, setup_file, do_pythia, pythia_card, generate_BSM, mg_di
             sample_benchmark='pos_chgtil',
             is_background = not args.reweight,
             run_card_file=f'{cards_folder_name}/run_card_signal_small.dat',
-            initial_command=init_command if init_command != '' else None
+            initial_command=init_command if init_command != '' else None,
+            only_prepare_script=prepare_scripts
         )
 
 
@@ -88,8 +91,16 @@ def gen_signal(main_dir, setup_file, do_pythia, pythia_card, generate_BSM, mg_di
             sample_benchmark='neg_chgtil',
             is_background = not args.reweight,
             run_card_file=f'{cards_folder_name}/run_card_signal_small.dat',
-            initial_command=init_command if init_command != '' else None
+            initial_command=init_command if init_command != '' else None,
+            only_prepare_script=prepare_scripts
         )
+
+    # launch gen jobs to SLURM # LIP specifics
+    if args.launch_SLURM_jobs and args.prepare_scripts:
+        logging.info("Launching SLURM generation jobs")
+        cmd=f'find {main_dir}/signal_samples/*/madminer -name "run.sh" -exec sbatch -p lipq --mem=4G {{}} \;'
+        os.popen(cmd)
+        print(cmd)
 
 
     os.remove('/tmp/generate.mg5')
@@ -107,7 +118,11 @@ if __name__ == "__main__":
     parser.add_argument('--generate_BSM',help='Generate additional events at the BSM benchmarks',action='store_true',default=False)
 
     parser.add_argument('--reweight',help='if running reweighting alongside generation (doesnt work on multi-core mode)',action='store_true',default=False)
+    
+    parser.add_argument('--prepare_scripts',help='Prepares only run scripts to e.g. submit to a batch system separately',action='store_true',default=False)
 
+    parser.add_argument('--launch_SLURM_jobs',help='If SLURM jobs are to be launched immediately after preparation of scripts',action="store_true",default=False)
+    
 
     args=parser.parse_args()
 
@@ -122,4 +137,4 @@ if __name__ == "__main__":
         cards_folder_name = config['cards_folder_name']
 
     # Generate signal
-    gen_signal(main_dir, setup_file, args.do_pythia, pythia_card, args.generate_BSM, mg_dir, cards_folder_name)
+    gen_signal(main_dir, setup_file, args.do_pythia, pythia_card, args.generate_BSM, mg_dir, cards_folder_name, args.prepare_scripts, args.launch_SLURM_jobs)

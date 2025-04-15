@@ -1,10 +1,10 @@
 ### 1D CP-odd study
 
 # Folder where to keep everything for MadMiner WH studies, on which we store Madgraph samples and all .h5 files (setup, analyzed events, ...)
-main_dir: /data/atlas/users/mfernand/1D_cHGtil
+main_dir: /lstore/titan/martafsilva/master_thesis/bachelor_projects/ggF_output/
 
 # Folder where to keep all the plots 
-plot_dir: /data/atlas/users/mfernand/1D_cHGtil/plots # Name of setup file (without the .h5)
+plot_dir: /lstore/titan/martafsilva/master_thesis/bachelor_projects/ggF_output/plots # Name of setup file (without the .h5)
 
 # Name of setup file (without the .h5)
 setup_file: setup_1D_cHGtil
@@ -16,10 +16,10 @@ cards_folder_name: cards_ggF
 pythia_card: cards_ggF/pythia8_card.dat
 
 # Path for MadGraph installation
-mg_dir: /project/atlas/users/mfernand/software/MG5_aMC_v3_5_1
+mg_dir: /cvmfs/sw.el7/gcc63/madgraph/3.3.1/b01/
 
 # If running delphes, the path for the Delphes card
-delphes_card: cards/delphes_card_ATLAS.tcl
+delphes_card: cards_ggF/delphes_card_ATLAS_v1.tcl 
 
 alices:
 
