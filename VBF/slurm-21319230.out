@@ -1,0 +1,27 @@
+* ----------------------------------------------------------------
+* Running PROLOG for run_delphes_SLURM.sh on Wed Apr 16 08:47:57 WEST 2025
+*    JOB_NAME                : run_delphes_SLURM.sh
+*    JOB_ID                  : 21319230
+*    JOB_PARTITION           : lipq
+*    JOB_USER                : martafsilva
+*    JOB_ACCOUNT             : t3atlas
+*    JOB_QOS                 : calo
+*    NODE_LIST               : wn243
+*    SLURM_NNODES            : 1
+*    SLURM_NPROCS            : 4
+*    SLURM_NTASKS            : 4
+*    SLURM_CPUS_ON_NODE      : 7
+*    SLURM_TASKS_PER_NODE    : 4
+*    SLURM_JOB_CPUS_PER_NODE : 7
+*    SLURM_MEM_PER_NODE      : 16384
+*    SUBMIT_HOST             : atlas02.a.incd.pt
+*    WORK_DIR                : /lstore/titan/martafsilva/master_thesis/bachelor_projects/ggF_VBF_sbi/VBF
+*    JOB_SCRIPT              : /lstore/titan/martafsilva/master_thesis/bachelor_projects/ggF_VBF_sbi/VBF/run_delphes_SLURM.sh
+* ----------------------------------------------------------------
+* Stagein transfers:
+*     failure 3_run_delphes_analysis.py
+* ----------------------------------------------------------------
+
+* ----------------------------------------------------------------
+* Running EPILOG for run_delphes_SLURM.sh on Wed Apr 16 12:26:11 WEST 2025
+* ----------------------------------------------------------------

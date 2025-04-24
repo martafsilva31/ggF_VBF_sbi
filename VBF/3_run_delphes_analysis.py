@@ -15,32 +15,6 @@ logging.basicConfig(
     level=logging.DEBUG
 )
 
-
-# def dphi_jj(particles=[],leptons=[],photons=[],jets=[],met=None,debug=False):
-
-#     phi_j1 = jets[0].phi
-#     phi_j2 = jets[1].phi
-
-#     eta_j1 = jets[0].eta
-#     eta_j2 = jets[1].eta
-
-#     if eta_j1 > eta_j2:
-#         delta_phi = phi_j1 - phi_j2
-#     else:
-#         delta_phi = phi_j2 - phi_j1
-
-#     # Ensure the angle is between -π and π
-#     delta_phi = np.arctan2(np.sin(delta_phi), np.cos(delta_phi))  
-
-#     return delta_phi 
-
-# Discarding events that contain b-jets 
-# def b_veto(particles=[],leptons=[],photons=[],jets=[],met=None,debug=False):
-#     for jet in jets:
-#         if jet.btag:
-#             return 1
-#     return 0
-
 # Counting the number of jets
 def n_jets(particles=[], leptons=[], photons=[], jets=[], met=None, debug=False):
     
@@ -49,26 +23,6 @@ def n_jets(particles=[], leptons=[], photons=[], jets=[], met=None, debug=False)
         num_jets += 1
     return num_jets
 
-# Want leptons with opposite sign and different flavor (to remove Drell-Yan background)
-def osdf_veto(particles=[], leptons=[], photons=[], jets=[], met=None, debug=False):
-    num_leptons = 0
-    for lepton in leptons:
-        num_leptons += 1
-    if num_leptons < 2:
-        return 1  # Veto event (not enough leptons)
-    
-    try:
-        # OSDF: (e−, μ+) or (e+, μ−)
-        if (leptons[0].pdgid == 11 and leptons[1].pdgid == -13) or \
-           (leptons[0].pdgid == -11 and leptons[1].pdgid == 13) or \
-           (leptons[0].pdgid == 13 and leptons[1].pdgid == -11) or \
-           (leptons[0].pdgid == -13 and leptons[1].pdgid == 11):
-            return 0.  # passes OSDF, so no veto
-        else:
-            return 1.  # not OSDF → veto
-    except:
-        raise RuntimeError
-
 # Output of all other modules (e.g. matplotlib)
 for key in logging.Logger.manager.loggerDict:
     if "madminer" not in key:
@@ -76,50 +30,44 @@ for key in logging.Logger.manager.loggerDict:
 
 def process_events(event_path, setup_file_path, is_background_process=False, k_factor=1.0, do_delphes=True, delphes_card='', benchmark='sm'):
 
-    # observable_names = [
-    #     'l1_px', 'l1_py', 'l1_pz', 'l1_e',
-    #     'l2_px', 'l2_py', 'l2_pz', 'l2_e',
-    #     'pt_l1', 'eta_l1', 'phi_l1',
-    #     'pt_l2', 'eta_l2', 'phi_l2',
-    #     'dR_ll','dphi_ll',
-    #     'm_ll',
-    #     'met',
-    #     'mt_tot',
-    #     'pt_tot',
-    #     'j1_px', 'j1_py', 'j1_pz', 'j1_e',
-    #     'j2_px', 'j2_py', 'j2_pz', 'j2_e',
-    #     'pt_j1', 'eta_j1', 'phi_j1',
-    #     'pt_j2', 'eta_j2', 'phi_j2',
-    #     'm_jj',
-    #     'deta_jj',
-    #     'dR_jj', ]
-
-    # list_of_observables = [
-    #     'l[0].px', 'l[0].py', 'l[0].pz', 'l[0].e',
-    #     'l[1].px', 'l[1].py', 'l[1].pz', 'l[1].e',
-    #     'l[0].pt', 'l[0].eta', 'l[0].phi',
-    #     'l[1].pt', 'l[1].eta', 'l[1].phi',
-    #     'l[0].deltaR(l[1])','l[0].deltaphi(l[1])',
-    #     '(l[0] + l[1]).m',
-    #     'met.pt',
-    #     '(l[0] + l[1] + met).mt',
-    #     '(l[0] + l[1] + met).pt',
-    #     'j[0].px', 'j[0].py', 'j[0].pz', 'j[0].e',
-    #     'j[1].px', 'j[1].py', 'j[1].pz', 'j[1].e',
-    #     'j[0].pt', 'j[0].eta', 'j[0].phi',
-    #     'j[1].pt', 'j[1].eta', 'j[1].phi',
-    #     '(j[0] + j[1]).m',
-    #     'j[0].deltaeta(j[1])',
-    #     'j[0].deltaR(j[1])',
-    # ]
     observable_names = [
-         'dphi_jj' ]
+        'l1_px', 'l1_py', 'l1_pz', 'l1_e',
+        'l2_px', 'l2_py', 'l2_pz', 'l2_e',
+        'pt_l1', 'eta_l1', 'phi_l1',
+        'pt_l2', 'eta_l2', 'phi_l2',
+        'dR_ll','dphi_ll',
+        'm_ll',
+        'met',
+        'mt_tot',
+        'pt_tot',
+        'j1_px', 'j1_py', 'j1_pz', 'j1_e',
+        'j2_px', 'j2_py', 'j2_pz', 'j2_e',
+        'pt_j1', 'eta_j1', 'phi_j1',
+        'pt_j2', 'eta_j2', 'phi_j2',
+        'm_jj',
+        'deta_jj',
+        'dR_jj',
+        'dphi_jj' ]
 
     list_of_observables = [
+        'l[0].px', 'l[0].py', 'l[0].pz', 'l[0].e',
+        'l[1].px', 'l[1].py', 'l[1].pz', 'l[1].e',
+        'l[0].pt', 'l[0].eta', 'l[0].phi',
+        'l[1].pt', 'l[1].eta', 'l[1].phi',
+        'l[0].deltaR(l[1])','l[0].deltaphi(l[1])',
+        '(l[0] + l[1]).m',
+        'met.pt',
+        '(l[0] + l[1] + met).mt',
+        '(l[0] + l[1] + met).pt',
+        'j[0].px', 'j[0].py', 'j[0].pz', 'j[0].e',
+        'j[1].px', 'j[1].py', 'j[1].pz', 'j[1].e',
+        'j[0].pt', 'j[0].eta', 'j[0].phi',
+        'j[1].pt', 'j[1].eta', 'j[1].phi',
+        '(j[0] + j[1]).m',
+        'j[0].deltaeta(j[1])',
+        'j[0].deltaR(j[1])',
         'j[0].deltaphi(j[1]) * (-1. + 2.*float(j[0].eta > j[1].eta))'
-
     ]
-
     
     reader=DelphesReader(setup_file_path)
     
@@ -145,19 +93,6 @@ def process_events(event_path, setup_file_path, is_background_process=False, k_f
     for i, name in enumerate(observable_names):
         reader.add_observable( name, list_of_observables[i], required=True )
 
-
-    # reader.add_observable_from_function('dphi_jj', dphi_jj,required=True)
-    # reader.add_observable_from_function('b_veto', b_veto,required=True)
-    reader.add_observable_from_function('n_jets', n_jets,required=True)
-    reader.add_observable_from_function('osdf_veto', osdf_veto,required=True)
-
-    # Cuts
-    reader.add_cut('dphi_ll > 1.8')
-    reader.add_cut('m_ll < 55.')
-    # reader.add_cut('b_veto < 1.')
-    reader.add_cut('n_jets >= 2.')
-    reader.add_cut("osdf_veto < 1.")
-
     reader.analyse_delphes_samples(delete_delphes_files=True)
 
     reader.save(f'{event_path}/analysed_events.h5')
@@ -175,11 +110,6 @@ if __name__ == '__main__':
     parser.add_argument('--benchmark',help='benchmark from which the sample is originally generated')
    
     args=parser.parse_args()
-
-
-
-
-    
 
     # Read configuration parameters from the YAML file
     with open(args.config_file, 'r') as config_file:

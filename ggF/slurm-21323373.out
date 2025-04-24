@@ -1,0 +1,25 @@
+* ----------------------------------------------------------------
+* Running PROLOG for run.sh on Wed Apr 16 16:51:46 WEST 2025
+*    JOB_NAME                : run.sh
+*    JOB_ID                  : 21323373
+*    JOB_PARTITION           : lipq
+*    JOB_USER                : martafsilva
+*    JOB_ACCOUNT             : t3atlas
+*    JOB_QOS                 : calo
+*    NODE_LIST               : wn238
+*    SLURM_NNODES            : 1
+*    SLURM_CPUS_ON_NODE      : 2
+*    SLURM_TASKS_PER_NODE    : 2
+*    SLURM_JOB_CPUS_PER_NODE : 2
+*    SLURM_MEM_PER_NODE      : 4096
+*    SUBMIT_HOST             : atlas02.a.incd.pt
+*    WORK_DIR                : /lstore/titan/martafsilva/master_thesis/bachelor_projects/ggF_VBF_sbi/ggF
+*    JOB_SCRIPT              : /lstore/titan/martafsilva/master_thesis/bachelor_projects/ggF_output//signal_samples/ggF_smeftsim_SM/madminer/run.sh
+* ----------------------------------------------------------------
+/lstore/titan/martafsilva/master_thesis/bachelor_projects/ggF_output//signal_samples/ggF_smeftsim_SM/madminer/scripts/run_0.sh: line 7: export LD_LIBRARY_PATH=/cvmfs/sw.el7/gcc63/madgraph/3.3.1/b01/HEPTools/pythia8/lib:$LD_LIBRARY_PATH; module load gcc63/madgraph/3.3.1; module unload gcc63/pythia/8.2.40,: No such file or directory
+stty: standard input: Inappropriate ioctl for device
+slurmstepd: error: *** JOB 21323373 ON wn238 CANCELLED AT 2025-04-16T16:52:57 ***
+
+* ----------------------------------------------------------------
+* Running EPILOG for run.sh on Wed Apr 16 16:52:57 WEST 2025
+* ----------------------------------------------------------------

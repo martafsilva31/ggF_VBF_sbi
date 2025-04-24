@@ -1,4 +1,4 @@
 convert model /lstore/titan/martafsilva/master_thesis/bachelor_projects/ggF_VBF_sbi/ggF/SMEFTsim_top_MwScheme_UFO
 import model /lstore/titan/martafsilva/master_thesis/bachelor_projects/ggF_VBF_sbi/ggF/SMEFTsim_top_MwScheme_UFO
 define jb = g u c d s b u~ c~ d~ s~ b~ 
-generate g g > h > l+ vl l- vl~ jb jb /z QED=4 QCD=4 NP<=1 SMHLOOP<=1 
+generate g g > h jb jb QED<=1 NP<=1 SMHLOOP<=1, (h > w+ w- > l+ vl l- vl~)

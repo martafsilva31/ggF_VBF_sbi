@@ -49,19 +49,19 @@ def gen_signal(main_dir, setup_file, do_pythia, pythia_card, generate_BSM, mg_di
     init_command="export LD_LIBRARY_PATH=/cvmfs/sw.el7/gcc63/madgraph/3.3.1/b01/HEPTools/pythia8/lib:$LD_LIBRARY_PATH; module load gcc63/madgraph/3.3.1; module unload gcc63/pythia/8.2.40",
 
     #SM samples with MG (re)weights of BSM benchmarks
-    miner.run(
-        mg_directory=mg_dir,
-        log_directory=f'{main_dir}/logs/ggF_smeftsim_SM',
-        mg_process_directory=f'{main_dir}/signal_samples/ggF_smeftsim_SM',
-        proc_card_file=f'{cards_folder_name}/proc_card_signal.dat',
-        param_card_template_file=param_card_template_file,
-        pythia8_card_file=pythia_card if do_pythia else None,
-        sample_benchmark ='sm',
-        is_background = not args.reweight,
-        run_card_file=f'{cards_folder_name}/run_card_signal_large.dat',
-        initial_command=init_command if init_command != '' else None,
-        only_prepare_script=prepare_scripts
-    )
+    # miner.run(
+    #     mg_directory=mg_dir,
+    #     log_directory=f'{main_dir}/logs/ggF_smeftsim_SM',
+    #     mg_process_directory=f'{main_dir}/signal_samples/ggF_smeftsim_SM',
+    #     proc_card_file=f'{cards_folder_name}/proc_card_signal.dat',
+    #     param_card_template_file=param_card_template_file,
+    #     pythia8_card_file=pythia_card if do_pythia else None,
+    #     sample_benchmark ='sm',
+    #     is_background = not args.reweight,
+    #     run_card_file=f'{cards_folder_name}/run_card_signal_large.dat',
+    #     initial_command=init_command if init_command != '' else None,
+    #     only_prepare_script=prepare_scripts
+    # )
 
     if generate_BSM:
 
